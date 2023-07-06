@@ -13,4 +13,7 @@ Script that changes the owner of the file
 4-empty
 Script that creates an empty file
 
+5-execute
+Script that adds execute permission to the owner of the file
+
 
