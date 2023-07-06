@@ -9,3 +9,8 @@ Script that contains the command that prints all the groups the current user is 
 
 3-new_owner
 Script that changes the owner of the file
+
+4-empty
+Script that creates an empty file
+
+
