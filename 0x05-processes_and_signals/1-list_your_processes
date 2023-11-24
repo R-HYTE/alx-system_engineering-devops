@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# -a: Shows processes for all users
+# -u: Displays additional information, including the user and other details
+# -x: Includes processes that do not have a controlling terminal (those without a TTY)
+# -f: Provides a full-format listing, showing additional details
+
+ps -auxf
