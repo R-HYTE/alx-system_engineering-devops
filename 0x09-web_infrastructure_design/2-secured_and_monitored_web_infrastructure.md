@@ -1,3 +1,5 @@
+![Secured and monitored web infrastructure diagram](https://i.imgur.com/c55Oo3u.png)
+
 ## Enhanced Infrastructure Design:
 
 ### Servers:

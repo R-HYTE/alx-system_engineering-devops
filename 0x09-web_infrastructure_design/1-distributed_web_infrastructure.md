@@ -1,3 +1,5 @@
+![Distributed web Infrastructure Diagram](https://i.imgur.com/Ml5TOla.png)
+
 ## Enhanced Infrastructure Design:
 
 ### Servers:
