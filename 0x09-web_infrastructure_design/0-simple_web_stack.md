@@ -1,3 +1,5 @@
+![Infrastructure Diagram](https://i.imgur.com/ehVFl8h.png)
+
 ## Infrastructure Design:
 
 1. **User Accessing Website:**
