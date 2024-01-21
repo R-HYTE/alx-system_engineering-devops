@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Connect to the server using ssh with specified private key and use
 
 # Define variables
 private_key_path=~/.ssh/school
