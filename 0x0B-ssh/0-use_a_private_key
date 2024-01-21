@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Define variables
+private_key_path=~/.ssh/school
+user=ubuntu
+server_ip=54.172.171.23
+
+# Connect to the server
+ssh -i "$private_key_path" "$user"@"$server_ip"
