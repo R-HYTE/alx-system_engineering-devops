@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Run apache in the container made by holbertonschool/265-0 image 
+
+echo "ServerName localhost" >> /etc/apache2/apache2.conf
+service apache2 start
