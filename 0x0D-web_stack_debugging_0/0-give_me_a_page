@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
-# Run apache in the container made by holbertonschool/265-0 image 
+# Run apache in the container made by holbertonschool/265-0 image
 
+# Check if the script is being run with root privileges
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run this script as root or using sudo."
+  exit 1
+fi
+
+# Add ServerName to Apache configuration
 echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Start Apache service
 service apache2 start
+
+# Navigate to the Apache web root directory
+cd /var/www/html/
+
+# Create an index.html file with the desired content
+echo "Hello Holberton" > index.html
