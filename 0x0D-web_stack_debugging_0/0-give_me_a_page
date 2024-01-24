@@ -14,7 +14,7 @@ echo "ServerName localhost" >> /etc/apache2/apache2.conf
 service apache2 start
 
 # Navigate to the Apache web root directory
-cd /var/www/html/
+cd /var/www/html/ || exit
 
 # Create an index.html file with the desired content
 echo "Hello Holberton" > index.html
