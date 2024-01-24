@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Configure your Nginx server to have a custom 404 page that contains a specified string
+
+# Check if the script is being run with superuser privileges
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run this script as root or using sudo."
+    exit 1
+fi
+
+# Define the Nginx configuration file path
+nginx_conf="/etc/nginx/sites-available/default"
+
+# Use sed to add a custom 404 page with the specified content
+sed -i "/server_name _;/a \ \ \ \ error_page 404 /custom_404.html;\n \ \ \ \ location = /custom_404.html {\n \ \ \ \ \ \ \ \ internal;\n \ \ \ \ \ \ \ \ return 404 'Ceci n\\'est pas une page';\n \ \ \ \ }\n" "$nginx_conf"
+
+# Reload Nginx to apply the changes
+systemctl reload nginx
