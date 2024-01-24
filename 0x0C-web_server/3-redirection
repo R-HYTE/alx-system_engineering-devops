@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Configuring Nginx server to redirect to another page
+
+# Check if the script is being run with superuser privileges
+#Effective User ID
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run this script as root or using sudo."
+    exit 1
+fi
+
+# Define the Nginx configuration file path
+nginx_conf="/etc/nginx/sites-available/default"
+
+# Use sed to add a location block for /redirect_me with a 301 redirect
+sed -i '/server_name _;/a \ \ \ \ location \/redirect_me {\n \ \ \ \ \ \ \ \ return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n \ \ \ \ }\n' "$nginx_conf"
+
+# Reload Nginx to apply the changes
+systemctl reload nginx
