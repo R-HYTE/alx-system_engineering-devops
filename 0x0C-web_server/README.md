@@ -2,7 +2,7 @@
 
 # How to set up a domain name
 ## In our case we'll be using .tech domains as a domain provider
--Step1: Access the link to your Github Student Developer Pack provided to you by your school and register.
+- Step1: Access the link to your Github Student Developer Pack provided to you by your school and register.
 
 - Step2: In the Github Education landing page, access the `Students` drop-down option and select  `Get Your Student Developer Pack`
 
