@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Configuring Nginx server to redirect to another page
 
+apt-get update
+apt-get install -y nginx
+
 # Check if the script is being run with superuser privileges
 #Effective User ID
 if [ "$EUID" -ne 0 ]; then
