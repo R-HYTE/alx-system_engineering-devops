@@ -2,10 +2,14 @@
 # Customize 404 error message
 
 # Ensure Nginx is installed
-if ! command -v nginx &> /dev/null; then
-    echo "Nginx is not installed. Please run the 1-install_nginx_web_server script first."
-    exit 1
-fi
+sudo apt-get -y update
+sudo apt-get -y install nginx
+
+# Replaced the default nginx landing page with "Hello World!"
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
+
+# Change ownership of the landing page to the user
+sudo chown "$USER":"$USER" /var/www/html/index.html
 
 # Create a custom HTML file for the 404 page
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html > /dev/null
