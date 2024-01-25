@@ -1,4 +1,9 @@
-# Trying out web servers
+# Skills Picked up
+- A way to publish website pages to your server i.e using bash scripting
+	- Run `./0-transfer_file some_page.html [insert_server_ip] [server_host_name] [path_to_ssh_private_key]`
+	- Remotely execute `ls ~/` command via ssh to see what `~/` contains
+		Run `ssh [server_host_name]@[insert_server_ip] -i [path_to_ssh_private_key] 'ls ~/'`
+
 
 # How to set up a domain name
 ## In our case we'll be using .tech domains as a domain provider
