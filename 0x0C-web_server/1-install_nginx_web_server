@@ -2,14 +2,17 @@
 # Install nginx web server
 
 # Update package list and install Nginx
-apt-get update
-apt-get install -y nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
 
-# Create a basic HTML page with "Hello World!"
-echo "Hello World!" > /var/www/html/index.html
+# Replaced teh default nginx landing page with "Hello World!"
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
+
+# Change ownership of the landing page to the user
+sudo chown "$USER":"$USER" /var/www/html/index.html
 
 # Restart Nginx to apply changes
-service nginx restart
+sudo service nginx restart
 
 # Ensure Nginx is listening on port 80
 # netcat in scan mode
