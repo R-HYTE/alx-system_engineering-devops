@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Install your load balancer
+
+# Update the package lists
+sudo apt-get update
+
+# Install HAProxy
+sudo apt-get install -y haproxy
+
+# Configure HAProxy for round-robin load balancing
+cat <<EOF | sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null
+frontend web
+    bind *:80
+    mode http
+    default_backend web_servers
+
+backend web_servers
+    mode http
+    balance roundrobin
+    server web-01 [web-01-IP]:80 check
+    server web-02 [web-02-IP]:80 check
+EOF
+
+# Ensure HAProxy to start on boot
+sudo systemctl enable haproxy
+
+# Restart the HAProxy service
+sudo systemctl restart haproxy
+
+# Print a message indicating that the configuration is complete
+echo "HAProxy has been installed and configured for round-robin load balancing."
