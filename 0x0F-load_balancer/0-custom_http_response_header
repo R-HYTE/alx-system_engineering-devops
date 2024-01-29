@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# This script configures Nginx to include a custom HTTP header, "X-Served-By,"
-# in its HTTP responses. The value of the header will be the hostname of the
-# server Nginx is running on.
+# shellcheck disable=SC2154
+# This script configures a new ubuntu machine nginx
 
 # Update the package lists
 sudo apt-get update
