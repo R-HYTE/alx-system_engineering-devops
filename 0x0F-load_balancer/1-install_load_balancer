@@ -5,7 +5,7 @@
 apt-get install -y --no-install-recommends software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy-2.8
 apt-get update
-apt-get install -y haproxy=2.8.\*
+apt-get install -y haproxy
 
 # Configure HAProxy for round-robin load balancing
 haproxy_config="\nfrontend web\n
