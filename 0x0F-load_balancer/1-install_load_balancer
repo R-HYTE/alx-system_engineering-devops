@@ -5,6 +5,8 @@
 sudo apt-get update
 
 # Install HAProxy
+sudo apt-get install --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.8
 sudo apt-get install -y haproxy
 
 # Configure HAProxy for round-robin load balancing
