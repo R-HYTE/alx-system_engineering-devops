@@ -1,31 +1,44 @@
 #!/usr/bin/env bash
-# Install your load balancer
+# Install and configure HAProxy on lb-01 server
 
-# Update the package lists
-sudo apt-get update
+# Check if running with sudo
+if [ "$EUID" -ne 0 ]; then
+	echo "Please run with sudo."
+	exit 1
+fi
+
+# Update package lists
+apt-get update
 
 # Install HAProxy
-sudo apt-get install -y haproxy
+apt-get install -y haproxy
 
 # Configure HAProxy for round-robin load balancing
-cat <<EOF | sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null
-frontend web
-    bind *:80
-    mode http
-    default_backend web_servers
+haproxy_config="\nfrontend web\n
+\tbind *:80
+\tmode http
+\tdefault_backend web_servers
 
-backend web_servers
-    mode http
-    balance roundrobin
-    server web-01 [web-01-IP]:80 check
-    server web-02 [web-02-IP]:80 check
-EOF
+backend web_servers\n
+\tmode http
+\tbalance roundrobin
+\tserver web-01 54.172.171.23:80 check
+\tserver web-02 54.172.83.49:80 check
+"
 
-# Ensure HAProxy to start on boot
-sudo systemctl enable haproxy
+# Ensure HAProxy can be managed via init script
+echo -e "ENABLED=1\n" | sudo tee -a /etc/default/haproxy
 
-# Restart the HAProxy service
+# Apply HAProxy configuration
+echo -e "$haproxy_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+
+# Restart HAProxy service
 sudo systemctl restart haproxy
 
-# Print a message indicating that the configuration is complete
-echo "HAProxy has been installed and configured for round-robin load balancing."
+# Check if the installation and configuration were successful
+if [ $? -eq 0 ]; then
+	echo "HAProxy has been installed and configured for round-robin load balancing."
+	echo "Ensure Hostnames for web-01 and web-02 have been set properly on your web servers."
+else
+	echo "Error: HAProxy installation or configuration failed."
+fi
