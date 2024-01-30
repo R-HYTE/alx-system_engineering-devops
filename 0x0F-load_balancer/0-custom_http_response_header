@@ -20,6 +20,9 @@ echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html > /dev/n
 # Define the Nginx configuration file path
 nginx_conf="/etc/nginx/sites-available/default"
 
+# Use sed to add a location block for /redirect_me with a 301 redirect
+sudo sed -i '/server_name _;/a \\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com;\n\t}' "$nginx_conf"
+
 # Use sed to add a location block for a custom 404 page
 sudo sed -i '/server_name _;/a \\n\terror_page 404 /custom_404.html;\n\tlocation = /custom_404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}' "$nginx_conf"
 
