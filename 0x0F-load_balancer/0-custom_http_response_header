@@ -3,10 +3,10 @@
 # This script configures a new ubuntu machine nginx
 
 # Update the package lists
-sudo apt-get update
+apt-get update
 
 # Install Nginx
-sudo apt-get install -y nginx
+apt-get install -y nginx
 
 # Replaced the default nginx landing page with "Hello World!"
 echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
@@ -32,7 +32,7 @@ custom_header_config='
 echo "$custom_header_config" | sudo tee -a /etc/nginx/sites-available/default > /dev/null
 
 # Restart Nginx to apply the changes
-sudo systemctl restart nginx
+sudo service nginx restart
 
 # Print a message indicating that the configuration is complete
 echo "Nginx has been configured to include custom header X-Served-By with the server's hostname."
