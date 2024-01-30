@@ -2,10 +2,10 @@
 # Install and configure HAProxy on lb-01 server
 
 # Install HAProxy
-apt-get install --no-install-recommends software-properties-common
-add-apt-repository ppa:vbernat/haproxy-2.8
+apt-get install -y --no-install-recommends software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-2.8
 apt-get update
-apt-get install haproxy=2.8.\*
+apt-get install -y haproxy=2.8.\*
 
 # Configure HAProxy for round-robin load balancing
 haproxy_config="\nfrontend web\n
