@@ -8,10 +8,10 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Update package lists
-apt-get update
+sudo apt-get update
 
 # Install HAProxy
-apt-get install -y haproxy
+sudo apt-get install -y haproxy
 
 # Configure HAProxy for round-robin load balancing
 haproxy_config="\nfrontend web\n
