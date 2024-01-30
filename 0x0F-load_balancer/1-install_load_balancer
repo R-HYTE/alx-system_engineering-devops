@@ -22,8 +22,8 @@ haproxy_config="\nfrontend web\n
 backend web_servers\n
 \tmode http
 \tbalance roundrobin
-\tserver web-01 54.172.171.23:80 check
-\tserver web-02 54.172.83.49:80 check
+\tserver 464202-web-01 54.172.171.23:80 check
+\tserver 464202-web-02 54.172.83.49:80 check
 "
 
 # Ensure HAProxy can be managed via init script
