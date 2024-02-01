@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# This script attempts to fix issues with the default Nginx landing page not reaching the browser.
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
+sudo kill -9 "$(cat /run/nginx.pid)"
+
