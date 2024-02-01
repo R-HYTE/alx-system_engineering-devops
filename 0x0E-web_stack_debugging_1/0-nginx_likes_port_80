@@ -1,6 +1,29 @@
 #!/usr/bin/env bash
-# Assuming nginx has been installed but for some reason it's the default landing page
-# does not get to the browser then there's a chance the symbolic link
-# in the sites-enabled has been deleted so try re-linking it
-sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-sudo service nginx restart
+# Fix what’s keeping your Ubuntu container’s Nginx installation from listening on port 80
+
+# Install Nginx if not already installed
+apt-get update
+apt-get install -y nginx
+
+# Ensure Nginx is running and listening on port 80
+service nginx start
+
+# Get the active IPv4 IPs
+ipv4_ips=$(ip -4 addr show scope global | grep inet | awk '{print $2}' | cut -d'/' -f1)
+
+# Configure Nginx to listen on port 80 for all active IPv4 IPs
+echo "server {
+	listen 80;
+	server_name _;
+
+	location / {
+		root /usr/share/nginx/html;
+		index index.html;
+	}
+}" > /etc/nginx/sites-available/default
+
+# Create symbolic link to enable the default site
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Restart Nginx to apply changes
+service nginx restart
