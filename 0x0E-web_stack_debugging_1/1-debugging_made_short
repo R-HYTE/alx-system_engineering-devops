@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Configure Nginx, serve default page, wait, stop Nginx
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-sleep 1
-service nginx stop
+service nginx start
+kill "$(pgrep 'nginx' | head -1)"
