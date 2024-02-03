@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Attempts to fix issues with the default Nginx landing page not reaching the browser.
+# Re-establish a link to my server then kill the nginx master process
 sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart
-sudo kill -9 "$(cat /run/nginx.pid)"
+sudo kill "$(cat /run/nginx.pid)"
