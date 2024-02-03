@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Create a symbolic link to my web-server even if it exists (-f) then kill the nginx master process
-sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-service nginx start
-kill "$(cat /run/nginx.pid)"
+# Configure Nginx, serve default page, stop Nginx, wait, start Nginx
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx stop && sleep 1 && service nginx start
