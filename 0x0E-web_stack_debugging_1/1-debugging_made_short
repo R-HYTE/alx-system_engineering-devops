@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Re-establish a link to my server then kill the nginx master process
-sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+# Create a symbolic link to my web-server even if it exists (-f) then kill the nginx master process
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart
 sudo kill "$(cat /run/nginx.pid)"
