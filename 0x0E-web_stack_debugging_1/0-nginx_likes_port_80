@@ -2,5 +2,6 @@
 # Assuming nginx has been installed but for some reason it's the default landing page
 # does not get to the browser then there's a chance the symbolic link
 # in the sites-enabled has been deleted so try re-linking it
+rm /etc/nginx/sites-enabled/default
 sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo service nginx restart
