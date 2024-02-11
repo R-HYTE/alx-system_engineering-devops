@@ -1,0 +1,2 @@
+Wrote a blog on what happens when you type `google.com` in your browser and press Enter. Enjoy the read!
+https://medium.com/@polycarpwathuta39/what-happens-when-you-type-google-com-in-your-browser-and-press-enter-93304878ca4d
