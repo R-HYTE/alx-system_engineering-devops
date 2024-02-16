@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Run nginx as nginx user instead of root or any other user
+
+# Update nginx.conf to run as nginx user
+sed -i 's/#user www-data/user nginx;/' /etc/nginx/nginx.conf
+
+# Update the default site configuration to listen on port 8080
+sed -i 's/listen\s*80;/listen 8080;/g' /etc/nginx/sites-available/default
+
+# Ensure correct permissions for the modified configuration files
+chmod 644 /etc/nginx/nginx.conf
+chmod 644 /etc/nginx/sites-available/default
+
+# Check if Apache2 is running and stop it
+if pgrep apache2 > /dev/null; then
+	pkill apache2
+fi
+
+# Restart Nginx to apply the changes
+service nginx restart
