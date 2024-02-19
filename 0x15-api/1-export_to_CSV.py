@@ -20,7 +20,7 @@ def fetch_employee_data(employee_id):
         tuple: A tuple containing the employee name and the TODO list data.
     """
     base_url = 'https://jsonplaceholder.typicode.com'
-    
+
     # Fetch user data
     user_response = get(f'{base_url}/users/{employee_id}')
     user_data = user_response.json()
@@ -46,12 +46,22 @@ def export_to_csv(employee_id, employee_name, todo_data):
 
     with open(csv_filename, 'w', newline='') as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-        
+
         # Write the first line with values
-        writer.writerow([employee_id, employee_name, todo_data[0]['completed'], todo_data[0]['title']])
+        writer.writerow([
+            employee_id,
+            employee_name,
+            todo_data[0]['completed'],
+            todo_data[0]['title']
+        ])
 
         for task in todo_data[1:]:
-            writer.writerow([employee_id, employee_name, task['completed'], task['title']])
+            writer.writerow([
+                employee_id,
+                employee_name,
+                task['completed'],
+                task['title']
+            ])
 
 
 if __name__ == "__main__":
