@@ -9,69 +9,73 @@ from sys import argv
 import json
 
 
-def fetch_employee_data(employee_id):
+def fetch_user_data(user_id):
     """
-    Fetches employee data including name and TODO list.
+    Fetches user data from the API based on the user ID.
 
     Args:
-        employee_id (int): The ID of the employee.
+        user_id (int): The ID of the user.
 
     Returns:
-        tuple: A tuple containing the employee name and the TODO list data.
+        dict: User data if found, otherwise an empty dictionary.
     """
-    base_url = 'https://jsonplaceholder.typicode.com'
-
-    # Fetch user data
-    user_response = get(f'{base_url}/users/{employee_id}')
-    user_data = user_response.json()
-    employee_name = user_data.get('name')
-
-    # Fetch user's TODO list
-    todo_response = get(f'{base_url}/todos?userId={employee_id}')
-    todo_data = todo_response.json()
-
-    return employee_name, todo_data
+    user_response = get(
+        f'https://jsonplaceholder.typicode.com/users/{user_id}'
+    )
+    return user_response.json()
 
 
-def export_to_json(employee_id, employee_name, todo_data):
+def fetch_todo_list(user_id):
+    """
+    Fetches the TODO list for a specific user ID.
+
+    Args:
+        user_id (int): The ID of the user.
+
+    Returns:
+        list: List of TODO items for the user.
+    """
+    todo_response = get(
+        f'https://jsonplaceholder.typicode.com/todos?userId={user_id}'
+    )
+    return todo_response.json()
+
+
+def export_to_json(user_id, user_data, todo_list):
     """
     Exports TODO list data to a JSON file.
 
     Args:
-        employee_id (int): The ID of the employee.
-        employee_name (str): The name of the employee.
-        todo_data (list): TODO list data.
+        user_id (int): The ID of the user.
+        user_data (dict): User data.
+        todo_list (list): TODO list data.
     """
-    json_filename = f'{employee_id}.json'
+    filename = f'{user_id}_{user_data["username"]}.json'
 
-    row = []
+    result = {str(user_id): []}
 
-    for task in todo_data:
-        new_dict = {
-            'username': employee_name,
-            'task': task['title'],
-            'completed': task['completed']
-        }
-        row.append(new_dict)
+    for task in todo_list:
+        result[str(user_id)].append({
+            "task": task['title'],
+            "completed": task['completed'],
+            "username": user_data['username']
+        })
 
-    final_dict = {employee_id: row}
-    json_obj = json.dumps(final_dict)
-
-    with open(json_filename, 'w') as json_file:
-        json_file.write(json_obj)
+    with open(filename, 'w') as file:
+        json.dump(result, file)
 
 
 if __name__ == "__main__":
     if len(argv) != 2:
-        print("Usage: python script.py <employee_id>")
+        print("Usage: python script.py <user_id>")
         exit(1)
 
-    employee_id = int(argv[1])
+    user_id = int(argv[1])
 
     try:
-        employee_name, todo_data = fetch_employee_data(employee_id)
-        export_to_json(employee_id, employee_name, todo_data)
+        user_data = fetch_user_data(user_id)
+        todo_list = fetch_todo_list(user_id)
+        export_to_json(user_id, user_data, todo_list)
 
-        print(f'Data exported to {employee_id}.json')
     except Exception as e:
         print(f"Error: {e}")
