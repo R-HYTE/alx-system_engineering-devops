@@ -50,7 +50,7 @@ def export_to_json(user_id, user_data, todo_list):
         user_data (dict): User data.
         todo_list (list): TODO list data.
     """
-    filename = f'{user_id}_{user_data["username"]}.json'
+    filename = f'{user_id}.json'
 
     result = {str(user_id): []}
 
