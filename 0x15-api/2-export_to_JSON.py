@@ -65,7 +65,7 @@ def export_to_json(employee_id, employee_username, todo_data):
     }
 
     with open(f'{employee_id}.json', 'w') as json_file:
-        json.dump(output_data, json_file, indent=2)
+        json.dump(output_data, json_file, separators=(', ', ': '))
 
 
 if __name__ == "__main__":
