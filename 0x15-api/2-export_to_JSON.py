@@ -1,18 +1,10 @@
 #!/usr/bin/python3
+
 """
 Script to fetch and display an employee's TODO list progress from a REST API.
 It also exports the data in JSON format.
 
-Usage: python script.py <employee_id>
-
-Requirements:
-- Uses the requests module for making HTTP requests.
-- Accepts an integer as a parameter (employee ID).
-- Displays the employee's TODO list progress in a specific format.
-- Exports TODO list data in JSON format to a file named USER_ID.json.
-
-Example:
-python3 2-export_to_JSON.py 2
+Usage: python3 2-export_to_JSON.py <employee_id>
 """
 
 import json
@@ -44,39 +36,31 @@ def fetch_employee_data(employee_id):
     return employee_username, todo_data
 
 
-def export_to_json(employee_id, employee_username, todo_data):
-    """
-    Exports TODO list data in JSON format to a file named USER_ID.json.
-
-    Args:
-        employee_id (int): The ID of the employee.
-        employee_username (str): The username of the employee.
-        todo_data (list): The TODO list data.
-    """
-    output_data = {
-            str(employee_id): [
-                {
-                    "task": task['title'],
-                    "completed": task['completed'],
-                    "username": employee_username
-                }
-                for task in todo_data
-            ]
-    }
-
-    with open(f'{employee_id}.json', 'w') as json_file:
-        json.dump(output_data, json_file, separators=(', ', ': '))
-
-
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python script.py <employee_id>")
-        sys.exit(1)
+        print("Usage: python3 2-export_to_JSON.py <employee_id>")
+        exit(1)
 
     employee_id = int(sys.argv[1])
 
     try:
         employee_username, todo_data = fetch_employee_data(employee_id)
-        export_to_json(employee_id, employee_username, todo_data)
-    except requests.exceptions.RequestException as e:
+
+        row = []
+
+        for task in todo_data:
+            new_dict = {
+                "task": task["title"],
+                "completed": task["completed"],
+                "username": employee_username
+            }
+            row.append(new_dict)
+
+        final_dict = {str(employee_id): row}
+        json_obj = json.dumps(final_dict)
+
+        with open(f'{employee_id}.json', 'w') as f:
+            f.write(json_obj)
+
+    except Exception as e:
         print(f"Error: {e}")
