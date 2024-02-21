@@ -15,9 +15,9 @@ Example:
 python3 2-export_to_JSON.py 2
 """
 
+import json
 import requests
 import sys
-import json
 
 
 def fetch_employee_data(employee_id):
