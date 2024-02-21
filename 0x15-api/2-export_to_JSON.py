@@ -1,81 +1,82 @@
 #!/usr/bin/python3
-
 """
-Python script that exports data in the JSON format.
+Script to fetch and display an employee's TODO list progress from a REST API.
+It also exports the data in JSON format.
+
+Usage: python script.py <employee_id>
+
+Requirements:
+- Uses the requests module for making HTTP requests.
+- Accepts an integer as a parameter (employee ID).
+- Displays the employee's TODO list progress in a specific format.
+- Exports TODO list data in JSON format to a file named USER_ID.json.
+
+Example:
+python3 2-export_to_JSON.py 2
 """
 
-from requests import get
-from sys import argv
+import requests
+import sys
 import json
 
 
-def fetch_user_data(user_id):
+def fetch_employee_data(employee_id):
     """
-    Fetches user data from the API based on the user ID.
+    Fetches employee data including name and TODO list.
 
     Args:
-        user_id (int): The ID of the user.
+        employee_id (int): The ID of the employee.
 
     Returns:
-        dict: User data if found, otherwise an empty dictionary.
+        tuple: A tuple containing the employee name and the TODO list data.
     """
-    user_response = get(
-        f'https://jsonplaceholder.typicode.com/users/{user_id}'
-    )
-    return user_response.json()
+    base_url = 'https://jsonplaceholder.typicode.com'
+
+    # Fetch user data
+    user_response = requests.get(f'{base_url}/users/{employee_id}')
+    user_data = user_response.json()
+    employee_username = user_data.get('username')
+
+    # Fetch user's TODO list
+    todo_response = requests.get(f'{base_url}/todos?userId={employee_id}')
+    todo_data = todo_response.json()
+
+    return employee_username, todo_data
 
 
-def fetch_todo_list(user_id):
+def export_to_json(employee_id, employee_username, todo_data):
     """
-    Fetches the TODO list for a specific user ID.
+    Exports TODO list data in JSON format to a file named USER_ID.json.
 
     Args:
-        user_id (int): The ID of the user.
-
-    Returns:
-        list: List of TODO items for the user.
+        employee_id (int): The ID of the employee.
+        employee_username (str): The username of the employee.
+        todo_data (list): The TODO list data.
     """
-    todo_response = get(
-        f'https://jsonplaceholder.typicode.com/todos?userId={user_id}'
-    )
-    return todo_response.json()
+    output_data = {
+            str(employee_id): [
+                {
+                    "task": task['title'],
+                    "completed": task['completed'],
+                    "username": employee_username
+                }
+                for task in todo_data
+            ]
+    }
 
-
-def export_to_json(user_id, user_data, todo_list):
-    """
-    Exports TODO list data to a JSON file.
-
-    Args:
-        user_id (int): The ID of the user.
-        user_data (dict): User data.
-        todo_list (list): TODO list data.
-    """
-    filename = f'{user_id}.json'
-
-    result = {str(user_id): []}
-
-    for task in todo_list:
-        result[str(user_id)].append({
-            "task": task['title'],
-            "completed": task['completed'],
-            "username": user_data['username']
-        })
-
-    with open(filename, 'w') as file:
-        json.dump(result, file)
+    with open(f'{employee_id}.json', 'w') as json_file:
+        json.dump(output_data, json_file, indent=2)
 
 
 if __name__ == "__main__":
-    if len(argv) != 2:
-        print("Usage: python script.py <user_id>")
-        exit(1)
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <employee_id>")
+        sys.exit(1)
 
-    user_id = int(argv[1])
+    employee_id = int(sys.argv[1])
 
     try:
-        user_data = fetch_user_data(user_id)
-        todo_list = fetch_todo_list(user_id)
-        export_to_json(user_id, user_data, todo_list)
-
-    except Exception as e:
+        employee_username, todo_data = fetch_employee_data(employee_id)
+        export_to_json(employee_id, employee_username, todo_data)
+    except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
