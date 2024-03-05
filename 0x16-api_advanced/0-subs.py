@@ -23,12 +23,16 @@ def number_of_subscribers(subreddit):
     if not subreddit or not isinstance(subreddit, str):
         return 0
 
-    user_agent = {'User-Agent': 'My-User-Agent/1.0 (by /u/your_username)'}
+    user_agent = {'User-Agent': 'Chrome/122.0.0.0'}
     url = f'https://www.reddit.com/r/{subreddit}/about.json'
     response = requests.get(url, headers=user_agent)
-    all_data = response.json()
 
     try:
-        return all_data.get('data').get('subscribers')
-    except:
+        all_data = response.json()
+        # Check if 'data' key is present before accessing 'subscribers'
+        if 'data' in all_data:
+            return all_data['data'].get('subscribers', 0)
+        else:
+            return 0
+    except (ValueError, KeyError):
         return 0
