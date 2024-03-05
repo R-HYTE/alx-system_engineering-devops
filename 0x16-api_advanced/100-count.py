@@ -3,17 +3,20 @@
 """
 Reddit API Recursive Keyword Count Module
 
-This module provides a recursive function to query the Reddit API, parse titles of hot articles,
-and print a sorted count of given keywords. The results are based on the number of times a keyword
-appears in the titles of hot articles.
+This module provides a recursive function to query the Reddit API,
+parse titles of hot articles, and print a sorted count of given keywords.
+The results are based on the number of times a keyword appears in the
+titles of hot articles.
 
 """
 
 import requests
 
+
 def count_words(subreddit, word_list, after=None, count_dict=None):
     """
-    Recursively query the Reddit API, parse titles of hot articles, and print a sorted count of given keywords.
+    Recursively query the Reddit API, parse titles of hot articles,
+    and print a sorted count of given keywords.
 
     Args:
         subreddit (str): The name of the subreddit.
@@ -30,7 +33,13 @@ def count_words(subreddit, word_list, after=None, count_dict=None):
     if not subreddit or not isinstance(subreddit, str):
         return
 
-    user_agent = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'}
+    user_agent = {
+        'User-Agent': (
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+            'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 '
+            'Safari/537.36'
+        )
+    }
 
     url = f'https://www.reddit.com/r/{subreddit}/hot.json?limit=100'
     if after:
@@ -51,13 +60,16 @@ def count_words(subreddit, word_list, after=None, count_dict=None):
             title = post['data']['title'].lower()
             for word in word_list:
                 # Check if the word is a whole word in the title
-                if f' {word.lower()} ' in f' {title} ':
-                    count_dict[word.lower()] = count_dict.get(word.lower(), 0) + 1
+                lowercase_word = word.lower()
+                count_dict[lowercase_word] = (
+                    count_dict.get(lowercase_word, 0) + 1
+                )
 
         after = data.get('data', {}).get('after')
         count_words(subreddit, word_list, after, count_dict)
     except (ValueError, KeyError):
         return
+
 
 def print_results(count_dict):
     """
